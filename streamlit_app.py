@@ -19,7 +19,7 @@ def magic_position_workflow(workflow):
 
 def handle_file_upload():
     """Handle workflow upload through file"""
-    uploaded_file = st.file_uploader("Or upload workflow file", type=['json'])
+    uploaded_file = st.file_uploader("Upload workflow file", type=['json'])
     if uploaded_file is not None:
         try:
             workflow_json = json.load(uploaded_file)
@@ -149,6 +149,12 @@ def main():
                     st.markdown(f'<div id="fullWorkflow" style="display:none">{formatted_workflow}</div>', unsafe_allow_html=True)
                 
             else:
+                workflow_text = st.text_area(
+                    "Result will appear here.",
+                    height=400,
+                    help="The positioning only changes the position of nodes.",
+                    key="workflow_input"
+                )
                 st.info("Paste a valid workflow JSON on the left to see the positioned result here.")
 
 if __name__ == "__main__":
