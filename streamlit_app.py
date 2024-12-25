@@ -68,10 +68,9 @@ def main():
     """, unsafe_allow_html=True)
 
     # Sidebar for navigation
-    st.sidebar.title("n8n Tools")
     st.sidebar.markdown(
         """
-        <div class="sidebar-logo">
+        <div class="sidebar-logo" style="padding-bottom: 20px;">
             <img src="https://n8n.ia2s.app/static/logo/expanded-dark.svg" width="200" />
         </div>
         """,
