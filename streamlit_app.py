@@ -47,8 +47,9 @@ def main():
                 help="Paste your n8n workflow JSON here"
             )
             
-            if st.button("Position Workflow"):
-                if workflow_input:
+            # Only show the button if there's input
+            if workflow_input.strip():
+                if st.button("Position Workflow", key="position_button"):
                     try:
                         # Parse input JSON to validate it
                         workflow_json = json.loads(workflow_input)
@@ -63,8 +64,6 @@ def main():
                         
                     except json.JSONDecodeError:
                         st.error("Invalid JSON input. Please check your workflow format.")
-                else:
-                    st.warning("Please paste a workflow first.")
 
         with col2:
             st.subheader("Positioned Workflow")
