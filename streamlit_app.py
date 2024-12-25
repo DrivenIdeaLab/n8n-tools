@@ -42,11 +42,11 @@ def main():
         layout="wide",
     )
 
-    # Custom CSS for better performance with large text
+    # Custom CSS for better performance with large text and deep red download button
     st.markdown("""
         <style>
         .downloadButton {
-            background-color: #4CAF50;
+            background-color: #8B0000;
             border: none;
             color: white;
             padding: 12px 24px;
@@ -119,11 +119,42 @@ def main():
         with col2:
             st.subheader("Positioned Workflow")
             if 'positioned_workflow' in st.session_state:
-                # Add download button
-                st.markdown(
-                    create_download_link(st.session_state.positioned_workflow),
-                    unsafe_allow_html=True
-                )
+                # Container for action buttons
+                col2_buttons = st.columns([1, 1])
+                
+                # Download button in first column
+                with col2_buttons[0]:
+                    st.markdown(
+                        create_download_link(st.session_state.positioned_workflow),
+                        unsafe_allow_html=True
+                    )
+                
+                # Copy button in second column (using the full workflow)
+                with col2_buttons[1]:
+                    st.markdown("""
+                        <button onclick="
+                            const fullWorkflow = JSON.stringify({}, null, 2);
+                            navigator.clipboard.writeText(fullWorkflow);
+                            this.textContent='Copied!';
+                            setTimeout(() => this.textContent='Copy Full Workflow', 2000);
+                        " style="
+                            background-color: #8B0000;
+                            border: none;
+                            color: white;
+                            padding: 12px 24px;
+                            text-align: center;
+                            text-decoration: none;
+                            display: inline-block;
+                            font-size: 16px;
+                            margin: 4px 2px;
+                            cursor: pointer;
+                            border-radius: 4px;
+                        ">
+                            Copy Full Workflow
+                        </button>
+                        """.format(st.session_state.positioned_workflow), 
+                        unsafe_allow_html=True
+                    )
                 
                 # Show preview with reduced height
                 st.code(
