@@ -13,7 +13,6 @@ def magic_position_workflow(workflow):
         response.raise_for_status()
         return response.json()
     except requests.exceptions.RequestException as e:
-        st.error(f"Error communicating with the API: {str(e)}")
         return None
 
 def main():
@@ -41,6 +40,10 @@ def main():
         
         with col1:
             st.subheader("Input Workflow")
+            
+            # Status messages container above the input
+            status_container = st.empty()
+            
             workflow_input = st.text_area(
                 "Paste your workflow here",
                 height=600,
@@ -48,7 +51,7 @@ def main():
                 key="workflow_input"
             )
             
-            # Automatically process when valid JSON is detected
+            # Process input and show appropriate messages
             if workflow_input:
                 try:
                     # Parse input JSON to validate it
@@ -63,11 +66,12 @@ def main():
                         if result:
                             st.session_state.positioned_workflow = json.dumps(result, indent=2)
                             st.session_state.last_input = workflow_input
-                            st.success("Workflow positioned successfully!")
+                            status_container.success("✅ Workflow positioned successfully!")
+                        else:
+                            status_container.error("❌ Positioning failed - API error")
                     
                 except json.JSONDecodeError:
-                    # Don't show error - just wait for valid JSON
-                    pass
+                    status_container.error("❌ Invalid JSON format")
 
         with col2:
             st.subheader("Positioned Workflow")
