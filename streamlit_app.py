@@ -151,7 +151,7 @@ def main():
             else:
                 st.markdown(
                     """
-                    <p style='font-size: 97%; padding-bottom: 1%; margin-bottom: 0;'>Result will appear here.</p>
+                    <p style='font-size: 90%; padding-bottom: 1%; margin-bottom: 0;'>Result will appear here.</p>
                     """,
                     unsafe_allow_html=True
                 )
