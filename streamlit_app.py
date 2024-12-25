@@ -75,7 +75,7 @@ def main():
     )
 
     # Main content area
-    st.title("n8n Tools")
+
 
     # Insert the logo before the title
     st.markdown(
