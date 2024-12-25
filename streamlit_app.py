@@ -153,7 +153,7 @@ def main():
                     "Result will appear here.",
                     height=400,
                     help="The positioning only changes the position of nodes.",
-                    key="workflow_input"
+                    key="workflow_output"
                 )
                 st.info("Paste a valid workflow JSON on the left to see the positioned result here.")
 
