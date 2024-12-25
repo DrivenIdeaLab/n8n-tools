@@ -149,7 +149,7 @@ def main():
                     st.markdown(f'<div id="fullWorkflow" style="display:none">{formatted_workflow}</div>', unsafe_allow_html=True)
                 
             else:
-                workflow_out_text = st.text_area(
+                st.text_area(
                     "Result will appear here.",
                     height=400,
                     help="The positioning only changes the position of nodes.",
