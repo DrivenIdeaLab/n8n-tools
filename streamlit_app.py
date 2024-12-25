@@ -70,8 +70,8 @@ def main():
     # Sidebar for navigation
     st.sidebar.markdown(
         """
-        <div class="sidebar-logo" style="padding-bottom: 20px;">
-            <img src="https://n8n.ia2s.app/static/logo/expanded-dark.svg" width="200" />
+        <div class="sidebar-logo" style="padding-bottom: 40px;">
+            <img src="https://n8n.ia2s.app/static/logo/expanded-dark.svg" width="150" />
         </div>
         """,
         unsafe_allow_html=True,
