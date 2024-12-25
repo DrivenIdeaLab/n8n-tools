@@ -44,12 +44,26 @@ def main():
             workflow_input = st.text_area(
                 "Paste your workflow here",
                 height=600,
-                help="Paste your n8n workflow JSON here"
+                help="Paste your n8n workflow JSON here",
+                key="workflow_input"
             )
             
-            # Only show the button if there's input
-            if workflow_input.strip():
-                if st.button("Position Workflow", key="position_button"):
+            # Add auto-scroll JavaScript when input changes
+            if workflow_input:
+                st.markdown("""
+                    <script>
+                        // Wait for the page to load
+                        window.addEventListener('load', function() {
+                            // Scroll to the bottom of the page
+                            window.scrollTo(0, document.body.scrollHeight);
+                        });
+                    </script>
+                    """, 
+                    unsafe_allow_html=True
+                )
+            
+            if st.button("Position Workflow"):
+                if workflow_input:
                     try:
                         # Parse input JSON to validate it
                         workflow_json = json.loads(workflow_input)
@@ -64,6 +78,8 @@ def main():
                         
                     except json.JSONDecodeError:
                         st.error("Invalid JSON input. Please check your workflow format.")
+                else:
+                    st.warning("Please paste a workflow first.")
 
         with col2:
             st.subheader("Positioned Workflow")
