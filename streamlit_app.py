@@ -76,14 +76,15 @@ def main():
 
     # Main content area
     st.title("n8n Tools")
+
+    # Insert the logo before the title
     st.markdown(
-    """
-    <div style="display: flex; align-items: center;">
-        <img src="https://n8n.ia2s.app/static/logo/expanded-dark.svg" alt="n8n logo" style="height: 40px; margin-right: 10px;">
-        <h1 style="margin: 0;">n8n Tools</h1>
-    </div>
-    """,
-    unsafe_allow_html=True
+        """
+        <div style="display: flex; align-items: center;">
+            <img src="https://n8n.ia2s.app/static/logo/expanded-dark.svg" width="40" height="40" style="margin-right: 10px;" />
+            <h1 style="margin: 0;">n8n Tools</h1>
+        </div>
+        """, unsafe_allow_html=True
     )
 
 
