@@ -69,27 +69,22 @@ def main():
 
     # Sidebar for navigation
     st.sidebar.title("n8n Tools")
+    st.sidebar.markdown(
+        """
+        <div class="sidebar-logo">
+            <img src="https://n8n.ia2s.app/static/logo/expanded-dark.svg" width="200" />
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
     selected_tool = st.sidebar.radio(
         "Select Tool",
         ["Magic Workflow Positioning"]
     )
 
-    # Main content area
-
-
-    # Insert the logo before the title
-    st.markdown(
-        """
-        <div style="display: flex; align-items: center;">
-            <img src="https://n8n.ia2s.app/static/logo/expanded-dark.svg" width="40" height="40" style="margin-right: 10px;" />
-            <h1 style="margin: 0;">n8n Tools</h1>
-        </div>
-        """, unsafe_allow_html=True
-    )
-
 
     if selected_tool == "Magic Workflow Positioning":
-        st.header("Magic Workflow Positioning")
+        st.header("🪄 Magic Workflow Positioning")
         
         # Create two columns
         col1, col2 = st.columns(2)
