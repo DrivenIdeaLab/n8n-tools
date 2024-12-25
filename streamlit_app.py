@@ -42,11 +42,11 @@ def main():
         layout="wide",
     )
 
-    # Custom CSS for better performance with large text and deep red download button
+    # Custom CSS for better performance with large text
     st.markdown("""
         <style>
         .downloadButton {
-            background-color: #8B0000;
+            background-color: rgba(139, 0, 0, 0.5);  /* Deep red with 50% transparency */
             border: none;
             color: white;
             padding: 12px 24px;
@@ -57,6 +57,9 @@ def main():
             margin: 4px 2px;
             cursor: pointer;
             border-radius: 4px;
+        }
+        .downloadButton:hover {
+            background-color: rgba(139, 0, 0, 0.7);  /* Darker on hover */
         }
         .stTextArea textarea {
             font-family: monospace;
@@ -119,49 +122,41 @@ def main():
         with col2:
             st.subheader("Positioned Workflow")
             if 'positioned_workflow' in st.session_state:
-                # Container for action buttons
-                col2_buttons = st.columns([1, 1])
-                
-                # Download button in first column
-                with col2_buttons[0]:
-                    st.markdown(
-                        create_download_link(st.session_state.positioned_workflow),
-                        unsafe_allow_html=True
-                    )
-                
-                # Copy button in second column (using the full workflow)
-                with col2_buttons[1]:
-                    st.markdown("""
-                        <button onclick="
-                            const fullWorkflow = JSON.stringify({}, null, 2);
-                            navigator.clipboard.writeText(fullWorkflow);
-                            this.textContent='Copied!';
-                            setTimeout(() => this.textContent='Copy Full Workflow', 2000);
-                        " style="
-                            background-color: #8B0000;
-                            border: none;
-                            color: white;
-                            padding: 12px 24px;
-                            text-align: center;
-                            text-decoration: none;
-                            display: inline-block;
-                            font-size: 16px;
-                            margin: 4px 2px;
-                            cursor: pointer;
-                            border-radius: 4px;
-                        ">
-                            Copy Full Workflow
-                        </button>
-                        """.format(st.session_state.positioned_workflow), 
-                        unsafe_allow_html=True
-                    )
-                
-                # Show preview with reduced height
-                st.code(
-                    json.dumps(st.session_state.positioned_workflow, indent=2)[:10000] + 
-                    "\n... (truncated for preview)",
-                    language='json'
+                # Add download button
+                st.markdown(
+                    create_download_link(st.session_state.positioned_workflow),
+                    unsafe_allow_html=True
                 )
+                
+                # Format the full workflow as JSON string
+                formatted_workflow = json.dumps(st.session_state.positioned_workflow, indent=2)
+                
+                # Add copy button with JavaScript
+                st.markdown("""
+                    <button onclick="
+                        navigator.clipboard.writeText(document.getElementById('fullWorkflow').textContent);
+                        this.textContent='Copied!';
+                        setTimeout(() => this.textContent='Copy to Clipboard', 2000);
+                    " style="margin-bottom: 10px;">
+                        Copy to Clipboard
+                    </button>
+                    """, 
+                    unsafe_allow_html=True
+                )
+                
+                # Show preview or full workflow based on size
+                if len(formatted_workflow) > 50000:
+                    preview = formatted_workflow[:10000] + "\n... (preview truncated)"
+                    st.code(preview, language='json')
+                    
+                    with st.expander("Show Full Workflow"):
+                        st.code(formatted_workflow, language='json')
+                        # Hidden div containing full workflow for copy functionality
+                        st.markdown(f'<div id="fullWorkflow" style="display:none">{formatted_workflow}</div>', unsafe_allow_html=True)
+                else:
+                    st.code(formatted_workflow, language='json')
+                    # Hidden div containing full workflow for copy functionality
+                    st.markdown(f'<div id="fullWorkflow" style="display:none">{formatted_workflow}</div>', unsafe_allow_html=True)
                 
             else:
                 st.info("Paste a valid workflow JSON on the left to see the positioned result here.")
