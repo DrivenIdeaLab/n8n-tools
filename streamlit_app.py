@@ -27,7 +27,7 @@ def main():
     st.sidebar.title("n8n Tools")
     selected_tool = st.sidebar.radio(
         "Select Tool",
-        ["Magic Workflow Positioning"]  # Add more tools here as they're developed
+        ["Magic Workflow Positioning"]
     )
 
     # Main content area
@@ -48,38 +48,26 @@ def main():
                 key="workflow_input"
             )
             
-            # Add auto-scroll JavaScript when input changes
+            # Automatically process when valid JSON is detected
             if workflow_input:
-                st.markdown("""
-                    <script>
-                        // Wait for the page to load
-                        window.addEventListener('load', function() {
-                            // Scroll to the bottom of the page
-                            window.scrollTo(0, document.body.scrollHeight);
-                        });
-                    </script>
-                    """, 
-                    unsafe_allow_html=True
-                )
-            
-            if st.button("Position Workflow"):
-                if workflow_input:
-                    try:
-                        # Parse input JSON to validate it
-                        workflow_json = json.loads(workflow_input)
+                try:
+                    # Parse input JSON to validate it
+                    workflow_json = json.loads(workflow_input)
+                    
+                    # Send to API only if the JSON has changed
+                    if ('last_input' not in st.session_state or 
+                        st.session_state.last_input != workflow_input):
                         
-                        # Send to API
                         result = magic_position_workflow(workflow_json)
                         
                         if result:
-                            # Store the result in session state
                             st.session_state.positioned_workflow = json.dumps(result, indent=2)
+                            st.session_state.last_input = workflow_input
                             st.success("Workflow positioned successfully!")
-                        
-                    except json.JSONDecodeError:
-                        st.error("Invalid JSON input. Please check your workflow format.")
-                else:
-                    st.warning("Please paste a workflow first.")
+                    
+                except json.JSONDecodeError:
+                    # Don't show error - just wait for valid JSON
+                    pass
 
         with col2:
             st.subheader("Positioned Workflow")
@@ -99,7 +87,7 @@ def main():
                     unsafe_allow_html=True
                 )
             else:
-                st.info("Positioned workflow will appear here after processing.")
+                st.info("Paste a valid workflow JSON on the left to see the positioned result here.")
 
 if __name__ == "__main__":
     main()
