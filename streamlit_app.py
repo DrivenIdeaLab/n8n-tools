@@ -150,7 +150,9 @@ def main():
                 
             else:
                 st.markdown(
-                    "<p style='margin-bottom: 0;'>Result will appear here.</p>",
+                    """
+                    <p style='font-size: 97%; padding-bottom: 1%; margin-bottom: 0;'>Result will appear here.</p>
+                    """,
                     unsafe_allow_html=True
                 )
                 st.info("Paste a valid workflow JSON on the left to see the positioned result here.")
